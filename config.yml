@@ -1,0 +1,4 @@
+global:
+  num_threads: 3
+graph:
+  graph_path: "./data/jgl009.mtx"
