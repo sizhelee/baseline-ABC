@@ -1,6 +1,7 @@
 class Nectar:
-    def __init__(self, route, trail):
-        self.route = route
+    def __init__(self, graph, trail):
+        self.graph = graph
+        self.route = graph.generate_init_method()
         self.trail = trail
         self.trueFit = self.cal_trueFit()
         self.fitness = self.cal_fitness()

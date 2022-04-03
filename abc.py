@@ -16,7 +16,7 @@ class ABC:
         self.employedBees = []
         self.OnlookerBees = []
         for i in range(self.num_bees):
-            method = Nectar(self.graph.generate_init_method, 0)
+            method = Nectar(self.graph, 0)
             self.methodGroup.append(copy.deepcopy(method))
             self.employedBees.append(copy.deepcopy(method))
             self.OnlookerBees.append(copy.deepcopy(method))
