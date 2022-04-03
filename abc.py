@@ -21,7 +21,7 @@ class ABC:
             self.employedBees.append(copy.deepcopy(method))
             self.OnlookerBees.append(copy.deepcopy(method))
 
-        self.bestMethod = Nectar(self.graph.generate_init_method, 0)
+        self.bestMethod = Nectar(self.graph.generate_init_method, 0, self.num_thread)
 
     def send_employedBees(self):
         raise NotImplementedError

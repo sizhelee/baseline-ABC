@@ -34,5 +34,16 @@ class Graph:
             flag[x] = 1
             for edge in self.graph[x]:
                 in_degree[edge] -= 1
-                
+
         return route
+
+    def is_method_legal(self, method):
+
+        route = method.route()
+        flag = np.zeros(self.num_nodes)
+
+        for node in route:
+            flag[node] = 1
+            if flag[self.graph[node]].any():
+                return False
+        return True
