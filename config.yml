@@ -1,4 +1,8 @@
 global:
   num_threads: 3
+  num_loop: 10000
 graph:
   graph_path: "./data/jgl009.mtx"
+nectar:
+  num_nectars: 10
+  limit: 20
