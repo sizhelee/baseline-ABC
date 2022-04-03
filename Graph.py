@@ -1,5 +1,7 @@
 import numpy as np
 from numpy import random
+from utils import utils
+
 
 class Graph:
     def __init__(self, list_edge):
@@ -36,6 +38,33 @@ class Graph:
                 in_degree[edge] -= 1
 
         return route
+    
+    def generate_new_method(self, route):
+        rate = utils.generate_rate(self.num_nodes)
+        index = np.arange(self.num_nodes)
+        idx = np.random.choice(index, rate)
+
+        new_route = []
+        flag = [0 for i in range(self.num_nodes)]
+        in_degree = self.in_degree
+
+        for i in range(index):
+            new_route.append(route[i])
+            flag[x] = 1
+            for edge in self.graph[x]:
+                in_degree[edge] -= 1
+
+        for i in range(index, self.num_nodes):
+            mask = (flag==0)*(in_degree==0)
+            idx = np.argwhere(mask).reshape(-1)
+            x = random.choice(idx)
+            new_route.append(x)
+            flag[x] = 1
+            for edge in self.graph[x]:
+                in_degree[edge] -= 1
+        
+        return new_route
+                
 
     def is_method_legal(self, method):
 

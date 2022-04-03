@@ -1,11 +1,13 @@
 class Nectar:
-    def __init__(self, graph, trail, num_threads):
+    def __init__(self, graph, trail, num_threads, route=None):
         self.graph = graph
-        self.route = graph.generate_init_method()
+        if route is None:
+            self.route = graph.generate_init_method()
+        else:
+            self.route = route
         self.trail = trail
-        self.trueFit = self.cal_trueFit()
-        self.fitness = self.cal_fitness()
         self.num_threads = num_threads
+        
 
     def cal_trueFit(self):  #calculate ture time of a method
         cnt = 0
@@ -31,7 +33,7 @@ class Nectar:
                 for edge in self.graph[node]:
                         in_degree[edge] -= 1
             cnt += 1
+            if len(route) == 0:
+                break
 
-
-    def cal_fitness(self):  #calculate fitted value of ture fit
-        raise NotImplementedError
+        return cnt

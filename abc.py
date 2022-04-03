@@ -11,6 +11,10 @@ class ABC:
         self.num_thread = config["global"]["num_threads"]
         self.num_bees = config["nectar"]["num_nectars"]
         self.num_loops = config["global"]["num_loop"]
+        self.limit = config["nectar"]["limit"]
+
+        self.truefit = [0 for i in range(self.num_bees)]
+        self.rfit = [0 for i in range(self.num_bees)]
 
         self.methodGroup = []
         self.employedBees = []
@@ -23,30 +27,70 @@ class ABC:
 
         self.bestMethod = Nectar(self.graph.generate_init_method, 0, self.num_thread)
 
-    def send_employedBees(self):
-        raise NotImplementedError
+    def cal_fitness(self):  #calculate fitted value of ture fit
+        minfit = 1e9
+        for i, method in enumerate(self.methodGroup):
+            self.truefit[i] = method.cal_trueFit()
+            minfit = min(minfit, self.truefit[i])
+        for i, tfit in enumerate(self.truefit):
+            self.rfit[i] = 0.1 + 0.9*(minfit/tfit)
+            if tfit == minfit:
+                self.bestMethod = copy.deepcopy(self.methodGroup[i])
+        
 
-    
-    def calculate_Probabilities(self):
-        raise NotImplementedError
+    def send_employedBees(self):
+        for i, (bee, nectar) in enumerate(zip(self.employedBees, self.methodGroup)):
+            new_route = self.graph.generate_new_method(nectar.route)
+            bee = Nectar(self.graph, 0, self.num_thread, new_route)
+            self.employedBees[i] = copy.deepcopy(bee)
+
+            fit = nectar.cal_trueFit()
+            new_fit = bee.cal_trueFit()
+
+            if fit > new_fit:
+                self.methodGroup[i] = copy.deepcopy(bee)
+                self.methodGroup[i].trail = 0
+            else:
+                self.methodGroup[i].trail += 1
+        self.cal_fitness()
 
     def send_onlookerBees(self):
-        raise NotImplementedError
-    
+        i = 0
+        t = 0
+
+        while t < self.num_bees:
+            r_choose = utils.rand_float(0, 1)
+            if r_choose < self.rfit[i]:
+                new_route = self.graph.generate_new_method(self.methodGroup[i].route)
+                bee = Nectar(self.graph, 0, self.num_thread, new_route)
+                self.OnlookerBees[t] = copy.deepcopy(bee)
+
+                fit = self.methodGroup[i].cal_trueFit()
+                new_fit = bee.cal_trueFit()
+
+                if fit > new_fit:
+                    self.methodGroup[i] = copy.deepcopy(bee)
+                    self.methodGroup[i].trail = 0
+                else:
+                    self.methodGroup[i] += 1
+
+                t += 1
+
+            i = (i + 1) % self.num_bees
+        self.cal_fitness()
+
     def send_scoutBees(self):
-        raise NotImplementedError
-    
-    def update_best(self):
-        raise NotImplementedError
+        for i, method in enumerate(self.methodGroup):
+            if method.trail >= self.limit:
+                self.methodGroup[i] = Nectar(self.graph, 0)
+        self.cal_fitness()
+        
 
     def solve(self):
         for i in range(self.num_loops):
             self.send_employedBees()
-            self.calculate_Probabilities()
             self.send_onlookerBees()
-            self.update_best()
             self.send_scoutBees()
-            self.update_best()
         return self.bestMethod
 
 
