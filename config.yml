@@ -1,8 +1,8 @@
 global:
   num_threads: 3
-  num_loop: 10000
+  num_loop: 100
 graph:
   graph_path: "./data/jgl009.mtx"
 nectar:
-  num_nectars: 10
-  limit: 20
+  num_nectars: 5
+  limit: 10

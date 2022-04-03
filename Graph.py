@@ -1,6 +1,7 @@
 import numpy as np
-from numpy import random
+from numpy import dtype, random
 from utils import utils
+import copy
 
 
 class Graph:
@@ -22,11 +23,10 @@ class Graph:
             in_degree[edge[1]] += 1
         return in_degree
 
-    # 生成随机满足拓扑排序条件的路径
-    def generate_init_method(self):
+    def generate_init_method(self): # generate legal random route
         route = []
-        flag = [0 for i in range(self.num_nodes)]
-        in_degree = self.in_degree
+        flag = np.zeros(self.num_nodes)
+        in_degree = np.array(copy.deepcopy(self.in_degree))
         
         for i in range(self.num_nodes):
             mask = (flag==0)*(in_degree==0)
@@ -36,25 +36,24 @@ class Graph:
             flag[x] = 1
             for edge in self.graph[x]:
                 in_degree[edge] -= 1
-
         return route
     
     def generate_new_method(self, route):
         rate = utils.generate_rate(self.num_nodes)
-        index = np.arange(self.num_nodes)
-        idx = np.random.choice(index, rate)
+        index = np.arange(self.num_nodes, dtype="int32")
+        idx = np.random.choice(index, p=rate)
 
         new_route = []
-        flag = [0 for i in range(self.num_nodes)]
-        in_degree = self.in_degree
+        flag = np.zeros(self.num_nodes)
+        in_degree = np.array(copy.deepcopy(self.in_degree))
 
-        for i in range(index):
+        for i in range(idx):
             new_route.append(route[i])
-            flag[x] = 1
-            for edge in self.graph[x]:
+            flag[route[i]] = 1
+            for edge in self.graph[route[i]]:
                 in_degree[edge] -= 1
 
-        for i in range(index, self.num_nodes):
+        for i in range(idx, self.num_nodes):
             mask = (flag==0)*(in_degree==0)
             idx = np.argwhere(mask).reshape(-1)
             x = random.choice(idx)
