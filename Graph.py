@@ -64,7 +64,6 @@ class Graph:
         
         return new_route
                 
-
     def is_method_legal(self, method):
 
         route = method.route()

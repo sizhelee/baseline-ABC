@@ -1,10 +1,15 @@
 import random
+import os
 
 def rand_int(start, end):
     return random.randint(start, end)
 
 def rand_float(start, end):
     return start + (end-start)*random.random()
+
+def make_dir(path):
+    if not os.path.exists(path):
+        os.mkdir(path)
 
 def generate_rate(n):
     prob = [i+1 for i in range(n)]

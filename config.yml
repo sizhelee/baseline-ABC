@@ -1,8 +1,18 @@
 global:
   num_threads: 3
   num_loop: 100
+  log_path: "./log.log"
+  folder_mode: True
+  folder_path: "./data3" # if using folder_mode, give the folder path
+  need_adjust: False  # the model can generate parameters automatically
+  save_loop: False
+  loop_folder: "./result"
+solver:
+  use_dp: True
+  use_greedy: True
+  use_abc: True
 graph:
-  graph_path: "./data/jgl009.mtx"
+  graph_path: "./data/ibm32.mtx"  # if using folder_mode, this is not necessary
 nectar:
-  num_nectars: 5
+  num_nectars: 20
   limit: 10
