@@ -2,7 +2,7 @@ global:
   num_threads: 3
   num_loop: 100
 graph:
-  graph_path: "./data/jgl009.mtx"
+  graph_path: "./data/chesapeake_39.mtx"
 nectar:
-  num_nectars: 5
+  num_nectars: 10
   limit: 10
