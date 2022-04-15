@@ -14,8 +14,5 @@ solver:
 graph:
   graph_path: "./data/ibm32.mtx"  # if using folder_mode, this is not necessary
 nectar:
-  num_nectars: 20
-  graph_path: "./data/chesapeake_39.mtx"
-nectar:
   num_nectars: 10
   limit: 10
