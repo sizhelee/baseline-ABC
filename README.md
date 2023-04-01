@@ -2,7 +2,7 @@
 
 2022江泽涵杯数学建模与计算机应用竞赛项目
 
-Powered by Zhiyuan Zhang, **Sizhe Li**, Zhan'an Wang
+Powered by **Sizhe Li**, Zhiyuan Zhang, Zhan'an Wang
 
 ## 介绍
 
